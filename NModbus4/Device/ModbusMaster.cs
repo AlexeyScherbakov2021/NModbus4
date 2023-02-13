@@ -8,6 +8,7 @@
     using Data;
     using IO;
     using Message;
+    using NModbus4.Message;
 
     /// <summary>
     ///     Modbus master device.
@@ -154,6 +155,26 @@
                 Modbus.ReadInputRegisters,
                 slaveAddress,
                 startAddress,
+                numberOfPoints);
+
+            return PerformReadRegisters(request);
+        }
+
+        /// <summary>
+        ///    Reads contiguous block of input registers.
+        /// </summary>
+        /// <param name="slaveAddress">Address of device to read values from.</param>
+        /// <param name="funcNumber">Number function.</param>
+        /// <param name="startAddress">Address to begin reading.</param>
+        /// <param name="numberOfPoints">Number of holding registers to read.</param>
+        /// <returns>Input registers status.</returns>
+        public ushort[] ReadInfoRegisters(byte slaveAddress, ushort numberOfPoints)
+        {
+            //ValidateNumberOfPoints("numberOfPoints", numberOfPoints, 125);
+
+            var request = new ReadInfoRegistersRequest(
+                Modbus.ReadInfoRegister,
+                slaveAddress,
                 numberOfPoints);
 
             return PerformReadRegisters(request);
@@ -421,6 +442,14 @@
         {
             ReadHoldingInputRegistersResponse response =
                 Transport.UnicastMessage<ReadHoldingInputRegistersResponse>(request);
+
+            return response.Data.Take(request.NumberOfPoints).ToArray();
+        }
+
+        private ushort[] PerformReadRegisters(ReadInfoRegistersRequest request)
+        {
+            ReadFuncRegistersResponse response =
+                Transport.UnicastMessage<ReadFuncRegistersResponse>(request);
 
             return response.Data.Take(request.NumberOfPoints).ToArray();
         }

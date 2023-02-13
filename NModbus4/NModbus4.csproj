@@ -85,6 +85,8 @@
     <Compile Include="Message\ModbusMessageImpl.cs" />
     <Compile Include="Message\ReadCoilsInputsRequest.cs" />
     <Compile Include="Message\ReadCoilsInputsResponse.cs" />
+    <Compile Include="Message\ReadInfoRegistersRequest.cs" />
+    <Compile Include="Message\ReadFuncRegistersResponse.cs" />
     <Compile Include="Message\ReadHoldingInputRegistersRequest.cs" />
     <Compile Include="Message\ReadHoldingInputRegistersResponse.cs" />
     <Compile Include="Message\ReadWriteMultipleRegistersRequest.cs" />

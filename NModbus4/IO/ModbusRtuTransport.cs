@@ -70,6 +70,7 @@
                 case Modbus.ReadInputs:
                 case Modbus.ReadHoldingRegisters:
                 case Modbus.ReadInputRegisters:
+                case Modbus.ReadInfoRegister:
                     numBytes = frameStart[2] + 1;
                     break;
                 case Modbus.WriteSingleCoil:
@@ -83,6 +84,7 @@
                     string msg = $"Function code {functionCode} not supported.";
                     Debug.WriteLine(msg);
                     throw new NotImplementedException(msg);
+                    //break;
             }
 
             return numBytes;

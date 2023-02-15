@@ -65,7 +65,7 @@
 
             Debug.WriteLine($"PDU: {frameLength}");
             var frame = mbapHeader.Concat(messageFrame).ToArray();
-            Debug.WriteLine($"RX: {string.Join(", ", frame)}");
+            Debug.WriteLine($"RX: {string.Join(", ", frame.Select(it => $"{it:X2}")  )}");
 
             return frame;
         }
@@ -126,7 +126,7 @@
         {
             message.TransactionId = GetNewTransactionId();
             byte[] frame = BuildMessageFrame(message);
-            Debug.WriteLine($"TX: {string.Join(", ", frame)}");
+            Debug.WriteLine($"TX: {string.Join(", ", frame.Select(it => $"{it:X2}"))}");
             StreamResource.Write(frame, 0, frame.Length);
         }
 

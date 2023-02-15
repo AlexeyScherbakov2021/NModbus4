@@ -2,6 +2,7 @@
 {
     using System.Diagnostics;
     using System.IO;
+    using System.Linq;
     using System.Text;
 
     using Message;
@@ -57,7 +58,7 @@
 
             // convert hex to bytes
             byte[] frame = ModbusUtility.HexToBytes(frameHex);
-            Debug.WriteLine($"RX: {string.Join(", ", frame)}");
+            Debug.WriteLine($"RX: {string.Join(", ", frame.Select(it => $"{it:X2}"))}");
 
             if (frame.Length < 3)
             {

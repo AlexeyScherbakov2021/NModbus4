@@ -103,7 +103,7 @@
 
                 Debug.WriteLine($"Read frame from Master at {EndPoint} completed {readBytes} bytes");
                 byte[] frame = _mbapHeader.Concat(_messageFrame).ToArray();
-                Debug.WriteLine($"RX from Master at {EndPoint}: {string.Join(", ", frame)}");
+                Debug.WriteLine($"RX from Master at {EndPoint}: {string.Join(", ", frame.Select(it => $"{it:X2}"))}");
 
                 var request = ModbusMessageFactory.CreateModbusRequest(_messageFrame);
                 request.TransactionId = (ushort)IPAddress.NetworkToHostOrder(BitConverter.ToInt16(frame, 0));
@@ -114,7 +114,7 @@
 
                 // write response
                 byte[] responseFrame = Transport.BuildMessageFrame(response);
-                Debug.WriteLine($"TX to Master at {EndPoint}: {string.Join(", ", responseFrame)}");
+                Debug.WriteLine($"TX to Master at {EndPoint}: {string.Join(", ", responseFrame.Select(it => $"{it:X2}"))}");
                 await Stream.WriteAsync(responseFrame, 0, responseFrame.Length).ConfigureAwait(false);
             }
         }

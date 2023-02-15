@@ -2,7 +2,7 @@
 {
     using System.Diagnostics;
     using System.IO;
-
+    using System.Linq;
     using Message;
 
     /// <summary>
@@ -38,7 +38,7 @@
             DiscardInBuffer();
 
             byte[] frame = BuildMessageFrame(message);
-            Debug.WriteLine($"TX: {string.Join(", ", frame)}");
+            Debug.WriteLine($"TX: {string.Join(", ", frame.Select(it => $"{it:X2}"))}");
             StreamResource.Write(frame, 0, frame.Length);
         }
 

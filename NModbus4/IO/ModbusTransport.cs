@@ -20,6 +20,14 @@
         private int _waitToRetryMilliseconds = Modbus.DefaultWaitToRetryMilliseconds;
         private IStreamResource _streamResource;
 
+        public delegate void LogEvent(string header, byte[] message);
+        public event LogEvent EventLogEvent;
+
+        public void SendLogEvent(string header,  byte[] message)
+        {
+            EventLogEvent?.Invoke(header, message);
+        }
+
         /// <summary>
         ///     This constructor is called by the NullTransport.
         /// </summary>
@@ -30,7 +38,6 @@
         internal ModbusTransport(IStreamResource streamResource)
         {
             Debug.Assert(streamResource != null, "Argument streamResource cannot be null.");
-
             _streamResource = streamResource;
         }
 

@@ -5,7 +5,7 @@
     using System.IO;
     using System.Linq;
     using System.Net;
-
+    using System.Runtime.CompilerServices;
     using Message;
 
     using Unme.Common;
@@ -66,7 +66,6 @@
             Debug.WriteLine($"PDU: {frameLength}");
             var frame = mbapHeader.Concat(messageFrame).ToArray();
             Debug.WriteLine($"RX: {string.Join(", ", frame.Select(it => $"{it:X2}")  )}");
-
             return frame;
         }
 
@@ -128,11 +127,14 @@
             byte[] frame = BuildMessageFrame(message);
             Debug.WriteLine($"TX: {string.Join(", ", frame.Select(it => $"{it:X2}"))}");
             StreamResource.Write(frame, 0, frame.Length);
+            SendLogEvent("TX", frame);
         }
 
         internal override byte[] ReadRequest()
         {
-            return ReadRequestResponse(StreamResource);
+            byte[] res = ReadRequestResponse(StreamResource);
+            SendLogEvent("RX", res);
+            return res;
         }
 
         internal override IModbusMessage ReadResponse<T>()

@@ -127,7 +127,7 @@
             byte[] frameEnd = Read(ResponseBytesToRead(frameStart));
             byte[] frame = Enumerable.Concat(frameStart, frameEnd).ToArray();
             Debug.WriteLine($"RX: {string.Join(", ", frame.Select(it => $"{it:X2}"))}");
-
+            SendLogEvent("RX", frame);
             return CreateResponse<T>(frame);
         }
 
@@ -137,7 +137,7 @@
             byte[] frameEnd = Read(RequestBytesToRead(frameStart));
             byte[] frame = Enumerable.Concat(frameStart, frameEnd).ToArray();
             Debug.WriteLine($"RX: {string.Join(", ", frame.Select(it => $"{it:X2}"))}");
-
+            SendLogEvent("RX", frame);
             return frame;
         }
     }

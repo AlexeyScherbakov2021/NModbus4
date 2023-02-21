@@ -1,5 +1,6 @@
 ﻿namespace Modbus.IO
 {
+    using System;
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
@@ -40,7 +41,9 @@
             byte[] frame = BuildMessageFrame(message);
             Debug.WriteLine($"TX: {string.Join(", ", frame.Select(it => $"{it:X2}"))}");
             StreamResource.Write(frame, 0, frame.Length);
+            SendLogEvent("TX", frame);
         }
+
 
         internal override IModbusMessage CreateResponse<T>(byte[] frame)
         {

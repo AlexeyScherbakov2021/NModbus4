@@ -139,7 +139,9 @@
 
         internal override IModbusMessage ReadResponse<T>()
         {
-            return CreateMessageAndInitializeTransactionId<T>(ReadRequestResponse(StreamResource));
+            byte[] res = ReadRequestResponse(StreamResource);
+            SendLogEvent("RX", res);
+            return CreateMessageAndInitializeTransactionId<T>(res);
         }
 
         internal override void OnValidateResponse(IModbusMessage request, IModbusMessage response)
